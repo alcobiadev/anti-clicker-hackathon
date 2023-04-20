@@ -1,8 +1,3 @@
-@font-face {
-    font-family: "Space Mono";
-    src: url("https://fonts.google.com/specimen/Space+Mono?category=Display,Monospace");
-}
-
 html{
 background-image: url('resources/background.png');
 background-attachment: fixed;
@@ -21,12 +16,11 @@ body {
     display: block;
     margin-left:auto;
     margin-right: auto;
-    width: 100%;
+    width: 50%;
   }
 
   #title-id {
-    display: block;
-    margin-top: 10%;
+    display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -34,9 +28,9 @@ body {
   }
 
   .text {
-    margin-left: auto;
-    margin-right: auto;
-    text-align:justify;
+    margin-left: 25%;
+    margin-right: 25%;
+    text-align:-webkit-center;
     font-family: 'Space Mono', monospace;
   }
 
