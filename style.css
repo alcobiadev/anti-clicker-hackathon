@@ -51,6 +51,7 @@ body {
 }
 
 button {
+  border: none;
   padding: 10px 20px;
   background-color: #72db76;
   color: white;

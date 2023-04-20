@@ -2,6 +2,7 @@ let gameIsOver = false;
 let score = 0;
 let seconds = 0;
 let bolts = [];
+let music = new Audio('resources/music.m4a');
 
 const ctx = document.getElementById("canvas").getContext("2d");
 let speed = 2;
@@ -14,8 +15,8 @@ let mouseY = 0;
 
 class Bolt {
 	constructor(y) {
-        let newX = Math.floor(Math.random() * window.innerWidth);
-        newX = newX > window.innerWidth / 2 ? newX - 200 : newX + 200;
+		let newX = Math.floor(Math.random() * window.innerWidth);
+		newX = newX > window.innerWidth / 2 ? newX - 50 : newX + 50;
 		this.x = newX;
 		this.y = y;
 	}
@@ -43,16 +44,14 @@ class Bolt {
 	}
 }
 
-
-
-
-
 function init() {
 	ctx.canvas.width = window.innerWidth;
 	ctx.canvas.height = window.innerHeight;
 
-	let audio = new Audio("resources/music.m4a");
-	audio.play();
+	let animals = document.getElementsByClassName("duck");
+	Array.prototype.forEach.call(animals, (animal) => animal.style.display = "none");
+
+	music.play();
 	setInterval(incrementSeconds, 1000);
 	window.requestAnimationFrame(gameLoop);
 }
@@ -70,33 +69,32 @@ function gameLoop() {
 }
 
 function generateBolts() {
-	if (bolts.length > 3) {
+	if (bolts.length > 5) {
 		return;
 	}
 
-	while (bolts.length < 3) {
+	while (bolts.length < 5) {
 		bolts.push(new Bolt(100));
-		console.log(bolts.length);
 	}
 }
 
 function draw() {
-    const canvas = document.getElementById("canvas");
-    if (canvas.getContext) {
-        const ctx = canvas.getContext("2d");
+	const canvas = document.getElementById("canvas");
+	if (canvas.getContext) {
+		const ctx = canvas.getContext("2d");
 	}
 	ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
 	let text = "Score: ";
 	ctx.fillStyle = "#02db9e";
-    ctx.strokeStyle = "black";
+	ctx.strokeStyle = "black";
 	ctx.font = "2.4rem 'Space monospace";
 	ctx.fillText(text + score, 40, 40);
-    ctx.strokeText(text + score, 40, 40);
+	ctx.strokeText(text + score, 40, 40);
 
-    let timeText = "Timer: ";
-    ctx.fillText(timeText + seconds, 260, 40);
-    ctx.strokeText(timeText + seconds, 260, 40);
+	let timeText = "Timer: ";
+	ctx.fillText(timeText + seconds, 260, 40);
+	ctx.strokeText(timeText + seconds, 260, 40);
 
 	bolts.forEach((bolt) => {
 		bolt.draw();
@@ -104,7 +102,6 @@ function draw() {
 }
 
 function update() {
-
 	bolts.forEach((bolt) => {
 		bolt.update();
 	});
@@ -122,26 +119,25 @@ function checkUserInput() {
 	);
 	if (newBolts < bolts) {
 		score += bolts.length - newBolts.length;
-        let audio = new Audio('resources/thunder.ogg');
-        audio.play();
+		let audio = new Audio("resources/thunder.ogg");
+		audio.play();
 	}
 	bolts = newBolts;
 }
 
 function incrementSeconds() {
-    seconds += 1;
-    if (seconds % 4 === 0) {
-        speed += 0.5;
-    }
+	seconds += 1;
+	if (seconds % 4 === 0) {
+		speed += 0.5;
+	}
 }
 
 function gameOver() {
-    let audio1 = new Audio('resources/');
-	audio1.play();
-	setTimeout(function(){
-		window.location.href = "gameover.html";
-	  }, 5000);
-	  return;
+	music.pause();
+	var audio = new Audio("resources/game-over.wav");
+	audio.play();
+	setTimeout(() => {window.location.href = "gameover.html";}, 1700);
+	return;
 }
 
 document.addEventListener("click", (e) => {
