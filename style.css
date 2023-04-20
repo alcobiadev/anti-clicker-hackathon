@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Space Mono";
+    src: url("https://fonts.google.com/specimen/Space+Mono?category=Display,Monospace");
+}
+
 html{
 background-image: url('resources/background.png');
 background-attachment: fixed;
@@ -32,13 +37,14 @@ body {
     margin-left: auto;
     margin-right: auto;
     text-align:justify;
+    font-family: 'Space Mono', monospace;
   }
 
   #button {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20%;
+    margin-top: 10%;
   }
 
   button {
@@ -46,6 +52,7 @@ body {
     background-color: #72db76;
     color: white;
     font-size: 16px;
+    font-family: 'Space Mono', monospace;
     text-transform: uppercase;
     letter-spacing: 2px;
     cursor: pointer;
