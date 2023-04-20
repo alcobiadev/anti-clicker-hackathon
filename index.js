@@ -43,19 +43,17 @@ class Bolt {
 	}
 }
 
-window.onload = () => {
-	init();
-};
 
-setInterval(incrementSeconds, 1000);
+
+
 
 function init() {
 	ctx.canvas.width = window.innerWidth;
 	ctx.canvas.height = window.innerHeight;
 
 	let audio = new Audio("resources/music.m4a");
-	//audio.play();
-
+	audio.play();
+	setInterval(incrementSeconds, 1000);
 	window.requestAnimationFrame(gameLoop);
 }
 
@@ -83,12 +81,16 @@ function generateBolts() {
 }
 
 function draw() {
+    const canvas = document.getElementById("canvas");
+    if (canvas.getContext) {
+        const ctx = canvas.getContext("2d");
+	}
 	ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
 	let text = "Score: ";
 	ctx.fillStyle = "#02db9e";
     ctx.strokeStyle = "black";
-	ctx.font = "2.4rem sans-serif";
+	ctx.font = "2.4rem 'Space monospace";
 	ctx.fillText(text + score, 40, 40);
     ctx.strokeText(text + score, 40, 40);
 
@@ -136,6 +138,7 @@ function incrementSeconds() {
 function gameOver() {
     let audio = new Audio('resources/game-over.wav');
     audio.play();
+	window.location.href = "gameover.html"
 	return;
 }
 
