@@ -1,9 +1,10 @@
 let gameIsOver = false;
 let score = 0;
+let seconds = 0;
 let bolts = [];
 
 const ctx = document.getElementById("canvas").getContext("2d");
-let speed = 3;
+let speed = 2;
 
 const sizeX = 80;
 const sizeY = 160;
@@ -24,11 +25,11 @@ class Bolt {
 		ctx.strokeStyle = "black";
 		ctx.beginPath();
 		ctx.moveTo(this.x, this.y);
-		ctx.lineTo(this.x - sizeX, this.y + sizeY / 2);
-		ctx.lineTo(this.x - sizeX / 2, this.y + sizeY / 2);
+		ctx.lineTo(this.x - sizeX, this.y + sizeY / 2 - 20);
+		ctx.lineTo(this.x - sizeX / 2 + 10, this.y + sizeY / 2);
 		ctx.lineTo(this.x - sizeX, this.y + sizeY);
 		ctx.lineTo(this.x, this.y + sizeY / 2);
-		ctx.lineTo(this.x - sizeX / 2, this.y + sizeY / 2);
+		ctx.lineTo(this.x - sizeX / 2 - 10, this.y + sizeY / 2 - 20);
 		ctx.lineTo(this.x, this.y);
 		ctx.fill();
 		ctx.stroke();
@@ -45,6 +46,8 @@ class Bolt {
 window.onload = () => {
 	init();
 };
+
+setInterval(incrementSeconds, 1000);
 
 function init() {
 	ctx.canvas.width = window.innerWidth;
@@ -83,9 +86,15 @@ function draw() {
 	ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
 	let text = "Score: ";
-	ctx.fillStyle = "black";
-	ctx.font = "3rem sans-serif";
-	ctx.fillText(text + score, 50, 50);
+	ctx.fillStyle = "#02db9e";
+    ctx.strokeStyle = "black";
+	ctx.font = "2.4rem sans-serif";
+	ctx.fillText(text + score, 40, 40);
+    ctx.strokeText(text + score, 40, 40);
+
+    let timeText = "Timer: ";
+    ctx.fillText(timeText + seconds, 260, 40);
+    ctx.strokeText(timeText + seconds, 260, 40);
 
 	bolts.forEach((bolt) => {
 		bolt.draw();
@@ -93,6 +102,7 @@ function draw() {
 }
 
 function update() {
+
 	bolts.forEach((bolt) => {
 		bolt.update();
 	});
@@ -110,12 +120,22 @@ function checkUserInput() {
 	);
 	if (newBolts < bolts) {
 		score += bolts.length - newBolts.length;
+        let audio = new Audio('resources/thunder.ogg');
+        audio.play();
 	}
 	bolts = newBolts;
 }
 
+function incrementSeconds() {
+    seconds += 1;
+    if (seconds % 4 === 0) {
+        speed += 0.5;
+    }
+}
+
 function gameOver() {
-	alert("game over");
+    let audio = new Audio('resources/game-over.wav');
+    audio.play();
 	return;
 }
 
