@@ -5,27 +5,28 @@ background-repeat: round;
 }
 
 body {
-    display: flex;
+    display: flex   ;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
 
-  .title {
+  .title-img {
     display: block;
     margin: 0 auto;
-    width: 50%;
+    width: 100%;
   }
 
-  #title-id {
-    margin-top: 10%;
+  .intro-text {
+    margin-left: auto;
+    margin-right: auto;
   }
-
 
   #button {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 20%;
   }
 
   button {
