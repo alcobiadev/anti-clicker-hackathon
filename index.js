@@ -2,6 +2,7 @@ let gameIsOver = false;
 let score = 0;
 let seconds = 0;
 let bolts = [];
+let clouds = [];
 let music = new Audio('resources/music.m4a');
 
 const ctx = document.getElementById("canvas").getContext("2d");
@@ -79,11 +80,20 @@ function generateBolts() {
 }
 
 function draw() {
-	const canvas = document.getElementById("canvas");
-	if (canvas.getContext) {
-		const ctx = canvas.getContext("2d");
-	}
+	
 	ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+
+	let cloudPath = 'resources/cloud.webp';
+	let cloud1 = new Image();
+	cloud1.src = cloudPath;
+	ctx.drawImage(cloud1, 100, 35, 450, 150);
+	let cloud2 = new Image();
+	cloud2.src = cloudPath;
+	ctx.drawImage(cloud1, 500, 35, 450, 150);
+	let cloud3 = new Image();
+	cloud3.src = cloudPath;
+	ctx.drawImage(cloud1, 900, 35, 450, 150);
 
 	let text = "Score: ";
 	ctx.fillStyle = "#02db9e";
