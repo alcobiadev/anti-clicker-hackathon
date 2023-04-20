@@ -1,7 +1,9 @@
 let gameIsOver = false;
+let score = 0;
 let bolts = [];
+
 const ctx = document.getElementById("canvas").getContext("2d");
-const speed = 3;
+let speed = 3;
 
 const sizeX = 80;
 const sizeY = 160;
@@ -11,7 +13,9 @@ let mouseY = 0;
 
 class Bolt {
 	constructor(y) {
-		this.x = Math.floor(Math.random() * window.innerWidth);
+        let newX = Math.floor(Math.random() * window.innerWidth);
+        newX = newX > window.innerWidth / 2 ? newX - 200 : newX + 200;
+		this.x = newX;
 		this.y = y;
 	}
 
@@ -49,12 +53,6 @@ function init() {
 	let audio = new Audio("resources/music.m4a");
 	//audio.play();
 
-	let cloud = new Image();
-	cloud.addEventListener("load", () => {
-		ctx.drawImage(cloud, 100, 25, 450, 230);
-	});
-	cloud.src = "resources/cloud.webp";
-
 	window.requestAnimationFrame(gameLoop);
 }
 
@@ -71,18 +69,24 @@ function gameLoop() {
 }
 
 function generateBolts() {
-	if (bolts.length >= 1) {
+	if (bolts.length > 3) {
 		return;
 	}
 
-	while (bolts.length <= 1) {
+	while (bolts.length < 3) {
 		bolts.push(new Bolt(100));
 		console.log(bolts.length);
 	}
 }
 
 function draw() {
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+	ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+	let text = "Score: ";
+	ctx.fillStyle = "black";
+	ctx.font = "3rem sans-serif";
+	ctx.fillText(text + score, 50, 50);
+
 	bolts.forEach((bolt) => {
 		bolt.draw();
 	});
@@ -95,10 +99,19 @@ function update() {
 }
 
 function checkUserInput() {
-    let newBolts = bolts.filter(bolt =>
-        !(mouseX > bolt.x - sizeX && mouseX < bolt.x && mouseY < bolt.y + sizeY && mouseY > bolt.y)       
-    );
-    bolts = newBolts;
+	let newBolts = bolts.filter(
+		(bolt) =>
+			!(
+				mouseX > bolt.x - sizeX &&
+				mouseX < bolt.x &&
+				mouseY < bolt.y + sizeY &&
+				mouseY > bolt.y
+			)
+	);
+	if (newBolts < bolts) {
+		score += bolts.length - newBolts.length;
+	}
+	bolts = newBolts;
 }
 
 function gameOver() {
@@ -107,9 +120,8 @@ function gameOver() {
 }
 
 document.addEventListener("click", (e) => {
-    mouseX = e.x;
-    mouseY = e.y;
-    e.preventDefault();
-    checkUserInput();
-    console.log(mouseX, mouseY);
+	mouseX = e.x;
+	mouseY = e.y;
+	e.preventDefault();
+	checkUserInput();
 });
