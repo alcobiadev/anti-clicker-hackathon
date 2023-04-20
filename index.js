@@ -3,6 +3,12 @@ let bolts = [];
 const ctx = document.getElementById("canvas").getContext("2d");
 const speed = 3;
 
+const sizeX = 80;
+const sizeY = 160;
+
+let mouseX = 0;
+let mouseY = 0;
+
 class Bolt {
 	constructor(y) {
 		this.x = Math.floor(Math.random() * window.innerWidth);
@@ -14,11 +20,11 @@ class Bolt {
 		ctx.strokeStyle = "black";
 		ctx.beginPath();
 		ctx.moveTo(this.x, this.y);
-		ctx.lineTo(this.x - 40, this.y + 40);
-		ctx.lineTo(this.x - 20, this.y + 40);
-		ctx.lineTo(this.x - 40, this.y + 80);
-		ctx.lineTo(this.x, this.y + 40);
-		ctx.lineTo(this.x - 20, this.y + 40);
+		ctx.lineTo(this.x - sizeX, this.y + sizeY / 2);
+		ctx.lineTo(this.x - sizeX / 2, this.y + sizeY / 2);
+		ctx.lineTo(this.x - sizeX, this.y + sizeY);
+		ctx.lineTo(this.x, this.y + sizeY / 2);
+		ctx.lineTo(this.x - sizeX / 2, this.y + sizeY / 2);
 		ctx.lineTo(this.x, this.y);
 		ctx.fill();
 		ctx.stroke();
@@ -65,11 +71,11 @@ function gameLoop() {
 }
 
 function generateBolts() {
-	if (bolts.length >= 5) {
+	if (bolts.length >= 1) {
 		return;
 	}
 
-	while (bolts.length <= 5) {
+	while (bolts.length <= 1) {
 		bolts.push(new Bolt(100));
 		console.log(bolts.length);
 	}
@@ -88,7 +94,22 @@ function update() {
 	});
 }
 
+function checkUserInput() {
+    let newBolts = bolts.filter(bolt =>
+        !(mouseX > bolt.x - sizeX && mouseX < bolt.x && mouseY < bolt.y + sizeY && mouseY > bolt.y)       
+    );
+    bolts = newBolts;
+}
+
 function gameOver() {
 	alert("game over");
 	return;
 }
+
+document.addEventListener("click", (e) => {
+    mouseX = e.x;
+    mouseY = e.y;
+    e.preventDefault();
+    checkUserInput();
+    console.log(mouseX, mouseY);
+});
