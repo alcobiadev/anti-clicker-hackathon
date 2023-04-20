@@ -136,10 +136,12 @@ function incrementSeconds() {
 }
 
 function gameOver() {
-    let audio = new Audio('resources/game-over.wav');
-    audio.play();
-	window.location.href = "gameover.html"
-	return;
+    let audio1 = new Audio('resources/');
+	audio1.play();
+	setTimeout(function(){
+		window.location.href = "gameover.html";
+	  }, 5000);
+	  return;
 }
 
 document.addEventListener("click", (e) => {
